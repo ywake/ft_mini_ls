@@ -6,7 +6,7 @@
 #    By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/03 01:33:12 by ywake             #+#    #+#              #
-#    Updated: 2020/12/04 03:58:00 by ywake            ###   ########.fr        #
+#    Updated: 2020/12/04 07:48:05 by ywake            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	:= ft_mini_ls
 CC		:= gcc
 INCLUDES:= -I./Libft
 CFLAGS	:= -Wall -Werror -Wextra $(INCLUDES)
-SRCS 	:= ft_mini_ls.c
+SRCS 	:= ft_mini_ls.c compare.c
 OBJS 	:= $(SRCS:.c=.o)
 
 .PHONY: all clean fclean re test
@@ -41,3 +41,7 @@ re: fclean all
 test:
 	$(CC) $(INCLUDES) $(SRCS) test.c Libft/libft.a -D TEST -o test_ft_mini_ls
 	bash leaks.sh
+
+norm:
+	@git add -N .
+	@~/.norminette/norminette.rb `git diff --name-only`

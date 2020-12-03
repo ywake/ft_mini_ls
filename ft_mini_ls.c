@@ -6,11 +6,12 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:55:52 by ywake             #+#    #+#             */
-/*   Updated: 2020/12/04 07:17:56 by ywake            ###   ########.fr       */
+/*   Updated: 2020/12/04 07:56:41 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <dirent.h>
+#include <sys/stat.h>
 #include <stdio.h>
 #include <errno.h>
 #include "libft.h"
@@ -32,16 +33,18 @@ int		error(char *str)
 
 void	print_filename(void *content)
 {
-	struct dirent *dirent;
-	dirent = (struct dirent *)content;
-	if (dirent->d_name[0] != '.')
-		ft_putendl_fd(dirent->d_name, STDOUT_FILENO);
+	t_fileinfo *fi;
+
+	fi = (t_fileinfo *)content;
+	if (fi->dirent->d_name[0] != '.')
+		ft_putendl_fd(fi->dirent->d_name, STDOUT_FILENO);
 }
 
 int		main(int argc, char *argv[])
 {
 	DIR				*dirp;
 	struct dirent	*dirent;
+	t_fileinfo		*finfo;
 	t_list			*list;
 
 	(void)argv;
@@ -52,7 +55,14 @@ int		main(int argc, char *argv[])
 		return (error(""));
 	list = NULL;
 	while ((dirent = readdir(dirp)))
-		ft_lstadd_back(&list, ft_lstnew(dirent));
+	{
+		finfo = (t_fileinfo *)malloc(sizeof(t_fileinfo));
+		finfo->dirent = dirent;
+		finfo->stat = (struct stat *)malloc(sizeof(struct stat));
+		if (lstat(dirent->d_name, finfo->stat))
+			return (error(""));
+		ft_lstadd_back(&list, ft_lstnew(finfo));
+	}
 	if (errno || closedir(dirp))
 		return (error(""));
 	list = ft_lst_sort(list, compare_name);
