@@ -6,7 +6,7 @@
 #    By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/03 01:33:12 by ywake             #+#    #+#              #
-#    Updated: 2020/12/04 03:52:56 by ywake            ###   ########.fr        #
+#    Updated: 2020/12/04 03:58:00 by ywake            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,13 +25,15 @@ all: $(NAME)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(MAKE) -C Libft
-	$(CC) $(OBJS) -o $(NAME) Libft/libft.a
+	$(MAKE) -C Libft bonus
+	$(CC) -o $(NAME) $(OBJS) Libft/libft.a
 
 clean:
+	$(MAKE) -C Libft clean
 	rm -f $(OBJS)
 
 fclean: clean
+	$(MAKE) -C Libft fclean
 	rm -f $(NAME)
 
 re: fclean all
