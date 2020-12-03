@@ -4,3 +4,5 @@
 !*.c
 !*.h
 !.gitignore
+test.c
+test.h

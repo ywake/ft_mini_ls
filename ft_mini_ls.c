@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:55:52 by ywake             #+#    #+#             */
-/*   Updated: 2020/12/04 03:19:18 by ywake            ###   ########.fr       */
+/*   Updated: 2020/12/04 03:50:57 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 #include <errno.h>
 #include "libft.h"
 #include "ft_mini_ls.h"
+
+#ifdef TEST
+# include "test.h"
+#endif
 
 int		error(char *str)
 {

@@ -6,7 +6,7 @@
 #    By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/03 01:33:12 by ywake             #+#    #+#              #
-#    Updated: 2020/12/04 02:48:40 by ywake            ###   ########.fr        #
+#    Updated: 2020/12/04 03:52:56 by ywake            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CFLAGS	:= -Wall -Werror -Wextra $(INCLUDES)
 SRCS 	:= ft_mini_ls.c
 OBJS 	:= $(SRCS:.c=.o)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re test
 
 all: $(NAME)
 
@@ -35,3 +35,7 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+test:
+	$(CC) $(INCLUDES) $(SRCS) test.c Libft/libft.a -D TEST -o test_ft_mini_ls
+	bash leaks.sh
