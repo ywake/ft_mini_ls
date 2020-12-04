@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:55:52 by ywake             #+#    #+#             */
-/*   Updated: 2020/12/04 09:45:29 by ywake            ###   ########.fr       */
+/*   Updated: 2020/12/04 23:38:29 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	del_list(void *content)
 
 	fi = (t_fileinfo *)content;
 	free(fi->stat);
+	free(fi->dirent);
 	free(fi);
 }
 
@@ -59,12 +60,15 @@ int		get_dirinfo(char *filepath, t_list **list)
 		return (-1);
 	while ((dirent = readdir(dirp)))
 	{
-		finfo = (t_fileinfo *)malloc(sizeof(t_fileinfo));
-		finfo->dirent = dirent;
+		if (!(finfo = (t_fileinfo *)malloc(sizeof(t_fileinfo))))
+			break ;
+		if (!(finfo->dirent = (struct dirent *)malloc(sizeof(struct dirent))))
+			break ;
+		ft_memcpy(finfo->dirent, dirent, sizeof(struct dirent));
 		finfo->stat = (struct stat *)malloc(sizeof(struct stat));
 		ft_lstadd_back(list, ft_lstnew(finfo));
 		if (lstat(dirent->d_name, finfo->stat))
-			break;
+			break ;
 	}
 	if (errno || closedir(dirp))
 	{
