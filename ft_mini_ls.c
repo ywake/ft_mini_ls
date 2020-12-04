@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:55:52 by ywake             #+#    #+#             */
-/*   Updated: 2020/12/04 08:58:04 by ywake            ###   ########.fr       */
+/*   Updated: 2020/12/04 09:38:25 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		get_dirinfo(char *filepath, t_list **list)
 	struct dirent	*dirent;
 	t_fileinfo		*finfo;
 
-	if ((dirp = opendir(".")))
+	if ((dirp = opendir(filepath)))
 		return (-1);
 	while ((dirent = readdir(dirp)))
 	{
@@ -84,7 +84,7 @@ int		main(int argc, char *argv[])
 		return (error(ERRMSG_CMDARG));
 	errno = 0;
 	list = NULL;
-	if (get_dirinfo(".", &list))
+	if (get_dirinfo("./", &list))
 		return (error("Error"));
 	list = ft_lst_sort(list, compare_name);
 	list = ft_lst_sort(list, compare_modtime_nsec);
