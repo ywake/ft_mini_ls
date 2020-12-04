@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:55:52 by ywake             #+#    #+#             */
-/*   Updated: 2020/12/04 09:38:25 by ywake            ###   ########.fr       */
+/*   Updated: 2020/12/04 09:45:29 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		get_dirinfo(char *filepath, t_list **list)
 	struct dirent	*dirent;
 	t_fileinfo		*finfo;
 
-	if ((dirp = opendir(filepath)))
+	if ((dirp = opendir(filepath)) == NULL)
 		return (-1);
 	while ((dirent = readdir(dirp)))
 	{
