@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 04:35:06 by ywake             #+#    #+#             */
-/*   Updated: 2020/12/04 04:51:26 by ywake            ###   ########.fr       */
+/*   Updated: 2020/12/09 02:21:23 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 void			ft_lst_reverse(t_list **lst)
 {
-	t_list *tmp;
+	t_list	*first_one;
+	t_list	*ans;
 
-	if (*lst == NULL || (*lst)->next == NULL)
-		return ;
-	tmp = *lst;
-	*lst = (*lst)->next;
-	tmp->next = NULL;
-	ft_lst_reverse(lst);
-	ft_lstadd_back(lst, tmp);
+	ans = NULL;
+	while (*lst)
+	{
+		first_one = (*lst);
+		*lst = (*lst)->next;
+		first_one->next = NULL;
+		ft_lstadd_front(&ans, first_one);
+	}
+	*lst = ans;
 }
