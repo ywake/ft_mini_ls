@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:55:52 by ywake             #+#    #+#             */
-/*   Updated: 2020/12/09 02:54:18 by ywake            ###   ########.fr       */
+/*   Updated: 2020/12/09 03:01:22 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <errno.h>
 #include "libft.h"
 #include "ft_mini_ls.h"
-#include "compare.h"
+#include "for_list.h"
 
 #ifdef TEST
 # include "test.h"
@@ -29,27 +29,6 @@ int		error(char *str)
 	else
 		ft_putendl_fd(str, STDERR_FILENO);
 	return (1);
-}
-
-void	print_filename(void *content)
-{
-	t_fileinfo *fi;
-
-	fi = (t_fileinfo *)content;
-	if (fi->name[0] != '.')
-		ft_putendl_fd(fi->name, STDOUT_FILENO);
-}
-
-void	del_list(void *content)
-{
-	t_fileinfo *fi;
-
-	fi = (t_fileinfo *)content;
-	if (fi->stat)
-		free(fi->stat);
-	if (fi->name)
-		free(fi->name);
-	free(fi);
 }
 
 int		get_dirinfo(char *filepath, t_list **list)

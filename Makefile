@@ -6,7 +6,7 @@
 #    By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/03 01:33:12 by ywake             #+#    #+#              #
-#    Updated: 2020/12/09 02:47:25 by ywake            ###   ########.fr        #
+#    Updated: 2020/12/09 03:02:42 by ywake            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	:= ft_mini_ls
 CC		:= gcc
 INCLUDES:= -I./Libft
 CFLAGS	:= -Wall -Werror -Wextra $(INCLUDES)
-SRCS 	:= ft_mini_ls.c compare.c
+SRCS 	:= ft_mini_ls.c for_list.c
 OBJS 	:= $(SRCS:.c=.o)
 
 .PHONY: all clean fclean re test
