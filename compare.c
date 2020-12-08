@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 07:14:09 by ywake             #+#    #+#             */
-/*   Updated: 2020/12/04 08:17:37 by ywake            ###   ########.fr       */
+/*   Updated: 2020/12/09 02:44:33 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,26 @@
 
 int		compare_name(t_fileinfo *fi1, t_fileinfo *fi2)
 {
-	return (ft_strcmp(fi1->dirent->d_name, fi2->dirent->d_name));
+	return (ft_strcmp(fi1->name, fi2->name));
 }
 
-int		compare_modtime_sec(t_fileinfo *fi1, t_fileinfo *fi2)
+int		compare_modtime(t_fileinfo *fi1, t_fileinfo *fi2)
 {
-	long	div;
+	long			div_sec;
+	long			div_nsec;
 
-	div = fi1->stat->st_mtimespec.tv_sec - fi2->stat->st_mtimespec.tv_sec;
-	div *= -1;
-	if (div < 0)
-		return (-1);
-	else if (div > 0)
+	div_sec = fi1->stat->st_mtimespec.tv_sec - fi2->stat->st_mtimespec.tv_sec;
+	if (div_sec < 0)
 		return (1);
-	return (0);
-}
-
-int		compare_modtime_nsec(t_fileinfo *fi1, t_fileinfo *fi2)
-{
-	long	div;
-
-	div = fi1->stat->st_mtimespec.tv_nsec - fi2->stat->st_mtimespec.tv_nsec;
-	div *= -1;
-	if (div < 0)
+	else if (div_sec > 0)
 		return (-1);
-	else if (div > 0)
-		return (1);
+	else {
+		div_nsec = fi1->stat->st_mtimespec.tv_nsec -
+					fi2->stat->st_mtimespec.tv_nsec;
+		if (div_nsec < 0)
+			return (1);
+		else if (div_nsec > 0)
+			return (-1);
+	}
 	return (0);
 }

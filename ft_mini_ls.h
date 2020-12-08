@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 07:56:59 by ywake             #+#    #+#             */
-/*   Updated: 2020/12/04 07:59:02 by ywake            ###   ########.fr       */
+/*   Updated: 2020/12/09 02:35:30 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 typedef struct	s_fileinfo
 {
-	struct dirent	*dirent;
+	char			*name;
 	struct stat		*stat;
 }				t_fileinfo;
 

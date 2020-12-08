@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:55:52 by ywake             #+#    #+#             */
-/*   Updated: 2020/12/04 23:38:29 by ywake            ###   ########.fr       */
+/*   Updated: 2020/12/09 02:46:03 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	print_filename(void *content)
 	t_fileinfo *fi;
 
 	fi = (t_fileinfo *)content;
-	if (fi->dirent->d_name[0] != '.')
-		ft_putendl_fd(fi->dirent->d_name, STDOUT_FILENO);
+	if (fi->name[0] != '.')
+		ft_putendl_fd(fi->name, STDOUT_FILENO);
 }
 
 void	del_list(void *content)
@@ -46,7 +46,7 @@ void	del_list(void *content)
 
 	fi = (t_fileinfo *)content;
 	free(fi->stat);
-	free(fi->dirent);
+	free(fi->name);
 	free(fi);
 }
 
@@ -56,17 +56,17 @@ int		get_dirinfo(char *filepath, t_list **list)
 	struct dirent	*dirent;
 	t_fileinfo		*finfo;
 
-	if ((dirp = opendir(filepath)) == NULL)
+	if (!(dirp = opendir(filepath)))
 		return (-1);
 	while ((dirent = readdir(dirp)))
 	{
 		if (!(finfo = (t_fileinfo *)malloc(sizeof(t_fileinfo))))
 			break ;
-		if (!(finfo->dirent = (struct dirent *)malloc(sizeof(struct dirent))))
-			break ;
-		ft_memcpy(finfo->dirent, dirent, sizeof(struct dirent));
+		ft_lstadd_front(list, ft_lstnew(finfo));
+		finfo->name = ft_strdup(dirent->d_name);
 		finfo->stat = (struct stat *)malloc(sizeof(struct stat));
-		ft_lstadd_back(list, ft_lstnew(finfo));
+		if (!finfo->name || !finfo->stat)
+			break ;
 		if (lstat(dirent->d_name, finfo->stat))
 			break ;
 	}
@@ -84,15 +84,14 @@ int		main(int argc, char *argv[])
 	t_list			*list;
 
 	(void)argv;
+	errno = 0;
 	if (argc > 1)
 		return (error(ERRMSG_CMDARG));
-	errno = 0;
 	list = NULL;
 	if (get_dirinfo("./", &list))
 		return (error("Error"));
-	list = ft_lst_sort(list, compare_name);
-	list = ft_lst_sort(list, compare_modtime_nsec);
-	list = ft_lst_sort(list, compare_modtime_sec);
+	ft_lst_sort(&list, compare_name);
+	ft_lst_sort(&list, compare_modtime);
 	ft_lst_reverse(&list);
 	ft_lstiter(list, print_filename);
 	ft_lstclear(&list, del_list);
