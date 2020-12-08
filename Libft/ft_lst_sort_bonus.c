@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 04:21:21 by ywake             #+#    #+#             */
-/*   Updated: 2020/12/04 07:04:58 by ywake            ###   ########.fr       */
+/*   Updated: 2020/12/09 02:19:56 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,33 +19,26 @@ static t_list	*lstadd_back_quick(t_list **list, t_list *new, t_list **last)
 	next = new->next;
 	new->next = NULL;
 	if (*list == NULL)
-	{
 		*list = new;
-		*last = new;
-	}
 	else
-	{
 		(*last)->next = new;
-		*last = new;
-	}
+	*last = new;
 	return (next);
 }
 
-t_list			*ft_lst_sort(t_list *left, int (*cmp)())
+static t_list	*ft_lst_sort_re(t_list *left, int size, int (*cmp)())
 {
-	int		size;
 	t_list	*ans;
 	t_list	*tmp;
 	t_list	*right;
 
 	if (left == NULL || left->next == NULL)
 		return (left);
-	size = ft_lstsize(left);
 	tmp = ft_lst_at(left, size / 2 - 1);
 	right = tmp->next;
 	tmp->next = NULL;
-	left = ft_lst_sort(left, cmp);
-	right = ft_lst_sort(right, cmp);
+	left = ft_lst_sort_re(left, size / 2, cmp);
+	right = ft_lst_sort_re(right, size - size / 2, cmp);
 	ans = NULL;
 	while (left || right)
 	{
@@ -55,4 +48,12 @@ t_list			*ft_lst_sort(t_list *left, int (*cmp)())
 			right = lstadd_back_quick(&ans, right, &tmp);
 	}
 	return (ans);
+}
+
+void			ft_lst_sort(t_list **list, int (*cmp)())
+{
+	int	size;
+
+	size = ft_lstsize(*list);
+	*list = ft_lst_sort_re(*list, size, cmp);
 }
