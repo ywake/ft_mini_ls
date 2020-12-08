@@ -6,7 +6,7 @@
 /*   By: ywake <ywake@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:55:52 by ywake             #+#    #+#             */
-/*   Updated: 2020/12/09 02:46:03 by ywake            ###   ########.fr       */
+/*   Updated: 2020/12/09 02:54:18 by ywake            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ void	del_list(void *content)
 	t_fileinfo *fi;
 
 	fi = (t_fileinfo *)content;
-	free(fi->stat);
-	free(fi->name);
+	if (fi->stat)
+		free(fi->stat);
+	if (fi->name)
+		free(fi->name);
 	free(fi);
 }
 
